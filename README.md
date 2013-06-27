@@ -170,7 +170,10 @@ That's it. Tweets using the O2 library!
 
 ### Storing OAuth Tokens
 
-O2 provides simple storage classes for writing OAuth tokens in a peristent location. Currently, a QSettings based backing store **O2SettingsStore** is provided in O2. O2SettingsStore keeps all token values in an encrypted form. You have to specify the encryption key to use while constructing the object:
+O2 provides simple storage classes for writing OAuth tokens in a peristent location. The following storage options are available:
+
+#### O2SettingsStore
+A **QSettings** based backing store. O2SettingsStore keeps all token values in an encrypted form. You have to specify the encryption key to use while constructing the object:
 
     O2SettingsStore settings = new O2SettingsStore("myencryptionkey");
     // Set the store before starting OAuth, i.e before calling link()
@@ -183,4 +186,23 @@ You can also create it with your customized QSettings object. O2SettingsStore wi
 
 Once set, O2SettingsStore takes ownership of the QSettings object.
 
-**Note:** If you do not specify a storage object to use, O2 will create one by default (which QSettings based), and use it. In such a case, a default encryption key is used for encrypting the data.
+**Note:** This is the *default* backing store used in O2. If you do not specify a storage object to use, O2 will create a QSettings based one and use it. In such a case, a default encryption key is used for encrypting the data.
+
+#### O2FileStore
+A **File** based backing store. This class stores data in a simple <pre>key=value</pre> format. It behaves much like a map/hash-table, in that if you add a key that already exists, it will overwrite the old value with the new one else a new entry is added.
+You can either construct it with the filename to store the data into:
+
+  O2FileStore filestore = new O2FileStore("/home/data/mydata.txt");
+
+or, construct it passing a pointer to your QFile:
+
+  QFile* myfile = new QFile("mydata.txt");
+  O2FileStore filestore = new O2FileStore(myfile);
+
+  // Set the store before starting OAuth, i.e before calling link()
+  o1->setStore(filestore);
+  ...
+
+Once set, O2FileStore takes ownership of the QFile object.
+
+**Note:** For most cases you should prefer to use *O2SettingsStore*, as it provides a robust way of storing contents in a file in an encrypted form.
