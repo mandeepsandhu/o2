@@ -13,6 +13,7 @@ SOURCES += \
     $$PWD/o2skydrive.cpp \
     $$PWD/oxtwitter.cpp \
     $$PWD/o2settingsstore.cpp \
+    $$PWD/o2volatilestore.cpp \
     $$PWD/o2filestore.cpp \
 
 HEADERS += \
@@ -33,4 +34,5 @@ HEADERS += \
     $$PWD/oxtwitter.h \
     $$PWD/o2abstractstore.h \
     $$PWD/o2settingsstore.h \
+    $$PWD/o2volatilestore.h \
     $$PWD/o2filestore.h \
