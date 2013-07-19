@@ -1,5 +1,6 @@
 QT += network script
 INCLUDEPATH += $$PWD
+
 SOURCES += \
     $$PWD/o1.cpp \
     $$PWD/o1requestor.cpp \
@@ -14,6 +15,10 @@ SOURCES += \
     $$PWD/oxtwitter.cpp \
     $$PWD/o2settingsstore.cpp \
     $$PWD/o2filestore.cpp \
+
+greaterThan(QT_MAJOR_VERSION, 4) {
+SOURCES += $$PWD/o2jsonstore.cpp \
+}
 
 HEADERS += \
     $$PWD/o1.h \
@@ -34,3 +39,7 @@ HEADERS += \
     $$PWD/o2abstractstore.h \
     $$PWD/o2settingsstore.h \
     $$PWD/o2filestore.h \
+
+greaterThan(QT_MAJOR_VERSION, 4) {
+HEADERS += $$PWD/o2jsonstore.h \
+}

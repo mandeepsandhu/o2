@@ -207,6 +207,9 @@ Once set, O2FileStore takes ownership of the QFile object.
 
 **Note:** For most cases you should prefer to use *O2SettingsStore*, as it provides a robust way of storing contents in a file in an encrypted form.
 
+#### O2JsonStore
+A JSON file based backing store. It is same as **O2FileStore**, except that it reads/writes file in JSON format. This class is available with Qt versions **5** and higher.
+
 ### Extra OAuth Tokens
 Some OAuth service providers provide additional information in the access token response. Eg: Twitter returns 2 additional tokens in it's access token response - *screen_name* and *user_id*.
 
