@@ -3,7 +3,7 @@
 
 #include <QString>
 #include <QFile>
-#include <QMap>
+#include <QVariantMap>
 
 #include "o2abstractstore.h"
 
@@ -24,8 +24,8 @@ public:
     void setValue(const QString &key, const QString &value);
 
 protected:
-    virtual QMap<QString, QString> parseFileData(QFile *file) const;
-    virtual void writeFileData(const QMap<QString, QString> &data, QFile *file);
+    virtual QVariantMap parseFileData(QFile *file) const;
+    virtual void writeFileData(const QVariantMap &data, QFile *file);
 
 signals:
     void error(const QString &errorString);

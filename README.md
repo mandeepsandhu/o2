@@ -190,7 +190,7 @@ Once set, O2SettingsStore takes ownership of the QSettings object.
 **Note:** If you do not specify a storage object to use, O2 will create one by default (which QSettings based), and use it. In such a case, a default encryption key is used for encrypting the data.
 
 #### O2FileStore
-A **File** based backing store. This class stores data in a simple <pre>key=value</pre> format. It behaves much like a map/hash-table, in that if you add a key that already exists, it will overwrite the old value with the new one else a new entry is added.
+A **File** based backing store. This class stores data in a simple <code>key=value</code> format. It behaves much like a map/hash-table, in that if you add a key that already exists, it will overwrite the old value with the new one else a new entry is added.
 You can either construct it with the filename to store the data into:
 
     O2FileStore filestore = new O2FileStore("/home/data/mydata.txt");

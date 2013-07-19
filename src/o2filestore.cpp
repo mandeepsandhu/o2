@@ -31,14 +31,18 @@ QString O2FileStore::value(const QString &key, const QString &defaultValue) {
         return defaultValue;
     }
 
-    QMap<QString, QString> data = parseFileData(file_);
+    QVariantMap data = parseFileData(file_);
     file_->close();
 
-    return data.value(key, defaultValue);
+    if (!data.contains(key)) {
+        return defaultValue;
+
+    }
+    return data.value(key).toString();
 }
 
 void O2FileStore::setValue(const QString &key, const QString &value) {
-    QMap<QString, QString> data;
+    QVariantMap data;
     if (file_->open(QIODevice::ReadOnly | QIODevice::Text)) {
         data = parseFileData(file_);
         file_->close();
@@ -56,9 +60,9 @@ void O2FileStore::setValue(const QString &key, const QString &value) {
     file_->close();
 }
 
-QMap<QString, QString> O2FileStore::parseFileData(QFile *file) const {
+QVariantMap O2FileStore::parseFileData(QFile *file) const {
     QTextStream inStream(file);
-    QMap<QString, QString> parsedData;
+    QVariantMap parsedData;
     while (!inStream.atEnd()) {
         QString line = inStream.readLine();
         QStringList kvpair = line.split(keyValueSeparator_);
@@ -70,10 +74,10 @@ QMap<QString, QString> O2FileStore::parseFileData(QFile *file) const {
     return parsedData;
 }
 
-void O2FileStore::writeFileData(const QMap<QString, QString> &data, QFile *file) {
+void O2FileStore::writeFileData(const QVariantMap &data, QFile *file) {
     QTextStream outStream(file);
     foreach (QString key, data.keys()) {
-        QString line = key + keyValueSeparator_ + data.value(key);
+        QString line = key + keyValueSeparator_ + data.value(key).toString();
         outStream << line << endl;
     }
 }
