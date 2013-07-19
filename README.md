@@ -25,6 +25,7 @@ O2Skydrive | o2skydrive.h | Skydrive OAuth specialization
 SimpleCrypt | simplecrypt.h | Simple encryption and decryption by Andre Somers
 O2AbstractStore | o2abstractstore.h | Base class for implemnting persistent stores
 O2SettingsStore | o2settingsstore.h | A QSettings based persistent store for writing OAuth tokens
+O2FileStore | o2filestore.h | A File based persistent store for writing OAuth tokens
 
 ## Installation
 
