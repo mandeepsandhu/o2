@@ -187,17 +187,7 @@ You can also create it with your customized QSettings object. O2SettingsStore wi
 
 Once set, O2SettingsStore takes ownership of the QSettings object.
 
-**Note:** This is the *default* backing store used in O2. If you do not specify a storage object to use, O2 will create a QSettings based one and use it. In such a case, a default encryption key is used for encrypting the data.
-
-#### O2VolatileStore
-This class stores key-value pairs in the applications memory. This store can be useful in scenario's where a user does not want to store the tokens in a persistent storage.
-
-Helpful during testing the complete OAuth flow, as the tokens are only stored in memory and each restart of the testing application clears this data.
-
-    O2VolatileStore memstore = new O2VolatileStore();
-    // Set the store before starting OAuth, i.e before calling link()
-    o1->setStore(memstore);
-    ...
+**Note:** If you do not specify a storage object to use, O2 will create one by default (which QSettings based), and use it. In such a case, a default encryption key is used for encrypting the data.
 
 #### O2FileStore
 A **File** based backing store. This class stores data in a simple <pre>key=value</pre> format. It behaves much like a map/hash-table, in that if you add a key that already exists, it will overwrite the old value with the new one else a new entry is added.
@@ -216,3 +206,9 @@ or, construct it passing a pointer to your QFile:
 Once set, O2FileStore takes ownership of the QFile object.
 
 **Note:** For most cases you should prefer to use *O2SettingsStore*, as it provides a robust way of storing contents in a file in an encrypted form.
+
+### Extra OAuth Tokens
+Some OAuth service providers provide additional information in the access token response. Eg: Twitter returns 2 additional tokens in it's access token response - *screen_name* and *user_id*.
+
+O2 provides all such tokens via the property - *extraTokens*. You can query this property after a successful OAuth exchange, i.e after the *linkingSucceeded()* signal has been emitted.
+
