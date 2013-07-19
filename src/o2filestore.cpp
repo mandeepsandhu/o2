@@ -1,4 +1,3 @@
-#include <QIODevice>
 #include <QStringList>
 #include <QDebug>
 
@@ -32,8 +31,7 @@ QString O2FileStore::value(const QString &key, const QString &defaultValue) {
         return defaultValue;
     }
 
-    QTextStream inStream(file_);
-    QMap<QString, QString> data = parseFileData(inStream);
+    QMap<QString, QString> data = parseFileData(file_);
     file_->close();
 
     return data.value(key, defaultValue);
@@ -42,8 +40,7 @@ QString O2FileStore::value(const QString &key, const QString &defaultValue) {
 void O2FileStore::setValue(const QString &key, const QString &value) {
     QMap<QString, QString> data;
     if (file_->open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QTextStream inStream(file_);
-        data = parseFileData(inStream);
+        data = parseFileData(file_);
         file_->close();
     }
 
@@ -53,16 +50,17 @@ void O2FileStore::setValue(const QString &key, const QString &value) {
         return;
     }
 
-    QTextStream outStream(file_);
     data.insert(key, value);
-    writeFileData(data, outStream);
+
+    writeFileData(data, file_);
     file_->close();
 }
 
-QMap<QString, QString> O2FileStore::parseFileData(QTextStream &input) const {
+QMap<QString, QString> O2FileStore::parseFileData(QFile *file) const {
+    QTextStream inStream(file);
     QMap<QString, QString> parsedData;
-    while (!input.atEnd()) {
-        QString line = input.readLine();
+    while (!inStream.atEnd()) {
+        QString line = inStream.readLine();
         QStringList kvpair = line.split(keyValueSeparator_);
         if (kvpair.isEmpty() || (kvpair.size() < 2)) {
             continue;
@@ -72,9 +70,10 @@ QMap<QString, QString> O2FileStore::parseFileData(QTextStream &input) const {
     return parsedData;
 }
 
-void O2FileStore::writeFileData(const QMap<QString, QString> &data, QTextStream &output) {
+void O2FileStore::writeFileData(const QMap<QString, QString> &data, QFile *file) {
+    QTextStream outStream(file);
     foreach (QString key, data.keys()) {
         QString line = key + keyValueSeparator_ + data.value(key);
-        output << line << endl;
+        outStream << line << endl;
     }
 }
