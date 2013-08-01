@@ -133,6 +133,7 @@ void O2::link() {
     trace() << "O2::link";
     if (linked()) {
         trace() << " Linked already";
+        emit linkingSucceeded();
         return;
     }
 
